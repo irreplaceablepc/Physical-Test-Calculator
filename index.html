@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physical Test Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Physical Test Calculator</h1>
+        <div class="form-group">
+            <label for="run">800 Meter Run Time (seconds):</label>
+            <input type="number" id="run" min="0" step="0.1" oninput="calculateScore()">
+        </div>
+        <div class="form-group">
+            <label for="longJump">Long Jump Distance (feet):</label>
+            <input type="number" id="longJump" min="0" step="0.01" oninput="calculateScore()">
+        </div>
+        <div class="form-group">
+            <label for="shotPut">Shot Put Distance (feet):</label>
+            <input type="number" id="shotPut" min="0" step="0.01" oninput="calculateScore()">
+        </div>
+        <div class="result" id="runResult"></div>
+        <div class="result" id="longJumpResult"></div>
+        <div class="result" id="shotPutResult"></div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateScore() {
+            const runTime = parseFloat(document.getElementById('run').value);
+            const longJumpFeet = parseFloat(document.getElementById('longJump').value);
+            const shotPutFeet = parseFloat(document.getElementById('shotPut').value);
+
+            // Convert feet to meters
+            const longJump = longJumpFeet * 0.3048;
+            const shotPut = shotPutFeet * 0.3048;
+
+            let runScore = 0;
+            let longJumpScore = 0;
+            let shotPutScore = 0;
+
+            // Scoring for 800 meter run (out of 40 points)
+            if (runTime > 198.3) runScore = 0;
+            else if (runTime > 196.4) runScore = 1;
+            else if (runTime > 194.5) runScore = 2;
+            else if (runTime > 192.6) runScore = 3;
+            else if (runTime > 190.7) runScore = 4;
+            else if (runTime > 188.8) runScore = 5;
+            else if (runTime > 186.9) runScore = 6;
+            else if (runTime > 185.0) runScore = 7;
+            else if (runTime > 183.1) runScore = 8;
+            else if (runTime > 181.2) runScore = 9;
+            else if (runTime > 179.3) runScore = 10;
+            else if (runTime > 177.4) runScore = 11;
+            else if (runTime > 175.5) runScore = 12;
+            else if (runTime > 173.6) runScore = 13;
+            else if (runTime > 171.7) runScore = 14;
+            else if (runTime > 169.8) runScore = 15;
+            else if (runTime > 167.9) runScore = 16;
+            else if (runTime > 166.0) runScore = 17;
+            else if (runTime > 164.1) runScore = 18;
+            else if (runTime > 162.2) runScore = 19;
+            else if (runTime > 160.3) runScore = 20;
+            else if (runTime > 158.4) runScore = 21;
+            else if (runTime > 156.5) runScore = 22;
+            else if (runTime > 154.6) runScore = 23;
+            else if (runTime > 152.7) runScore = 24;
+            else if (runTime > 150.8) runScore = 25;
+            else if (runTime > 148.9) runScore = 26;
+            else if (runTime > 147.0) runScore = 27;
+            else if (runTime > 145.1) runScore = 28;
+            else if (runTime > 143.2) runScore = 29;
+            else if (runTime > 141.3) runScore = 30;
+            else if (runTime > 139.4) runScore = 31;
+            else if (runTime > 137.5) runScore = 32;
+            else if (runTime > 135.6) runScore = 33;
+            else if (runTime > 133.7) runScore = 34;
+            else if (runTime > 131.8) runScore = 35;
+            else if (runTime > 129.9) runScore = 36;
+            else if (runTime > 128.0) runScore = 37;
+            else if (runTime > 126.1) runScore = 38;
+            else if (runTime > 124.2) runScore = 39;
+            else runScore = 40;
+
+            // Scoring for long jump (out of 30 points)
+            if (longJump >= 5.57) longJumpScore = 30;
+            else if (longJump >= 5.48) longJumpScore = 29;
+            else if (longJump >= 5.39) longJumpScore = 28;
+            else if (longJump >= 5.30) longJumpScore = 27;
+            else if (longJump >= 5.21) longJumpScore = 26;
+            else if (longJump >= 5.12) longJumpScore = 25;
+            else if (longJump >= 5.03) longJumpScore = 24;
+            else if (longJump >= 4.94) longJumpScore = 23;
+            else if (longJump >= 4.85) longJumpScore = 22;
+            else if (longJump >= 4.76) longJumpScore = 21;
+            else if (longJump >= 4.67) longJumpScore = 20;
+            else if (longJump >= 4.58) longJumpScore = 19;
+            else if (longJump >= 4.49) longJumpScore = 18;
+            else if (longJump >= 4.40) longJumpScore = 17;
+            else if (longJump >= 4.31) longJumpScore = 16;
+            else if (longJump >= 4.22) longJumpScore = 15;
+            else if (longJump >= 4.13) longJumpScore = 14;
+            else if (longJump >= 4.04) longJumpScore = 13;
+            else if (longJump >= 3.95) longJumpScore = 12;
+            else if (longJump >= 3.86) longJumpScore = 11;
+            else if (longJump >= 3.77) longJumpScore = 10;
+            else if (longJump >= 3.68) longJumpScore = 9;
+            else if (longJump >= 3.59) longJumpScore = 8;
+            else if (longJump >= 3.50) longJumpScore = 7;
+            else if (longJump >= 3.41) longJumpScore = 6;
+            else if (longJump >= 3.32) longJumpScore = 5;
+            else if (longJump >= 3.23) longJumpScore = 4;
+            else if (longJump >= 3.14) longJumpScore = 3;
+            else if (longJump >= 3.05) longJumpScore = 2;
+            else if (longJump >= 2.96) longJumpScore = 1;
+            else longJumpScore = 0;
+
+            // Scoring for shot put (out of 30 points)
+            if (shotPut >= 8.76) shotPutScore = 30;
+            else if (shotPut >= 8.59) shotPutScore = 29;
+            else if (shotPut >= 8.42) shotPutScore = 28;
+            else if (shotPut >= 8.25) shotPutScore = 27;
+            else if (shotPut >= 8.08) shotPutScore = 26;
+            else if (shotPut >= 7.91) shotPutScore = 25;
+            else if (shotPut >= 7.74) shotPutScore = 24;
+            else if (shotPut >= 7.57) shotPutScore = 23;
+            else if (shotPut >= 7.40) shotPutScore = 22;
+            else if (shotPut >= 7.23) shotPutScore = 21;
+            else if (shotPut >= 7.06) shotPutScore = 20;
+            else if (shotPut >= 6.89) shotPutScore = 19;
+            else if (shotPut >= 6.72) shotPutScore = 18;
+            else if (shotPut >= 6.55) shotPutScore = 17;
+            else if (shotPut >= 6.38) shotPutScore = 16;
+            else if (shotPut >= 6.21) shotPutScore = 15;
+            else if (shotPut >= 6.04) shotPutScore = 14;
+            else if (shotPut >= 5.87) shotPutScore = 13;
+            else if (shotPut >= 5.70) shotPutScore = 12;
+            else if (shotPut >= 5.53) shotPutScore = 11;
+            else if (shotPut >= 5.36) shotPutScore = 10;
+            else if (shotPut >= 5.19) shotPutScore = 9;
+            else if (shotPut >= 5.02) shotPutScore = 8;
+            else if (shotPut >= 4.85) shotPutScore = 7;
+            else if (shotPut >= 4.68) shotPutScore = 6;
+            else if (shotPut >= 4.51) shotPutScore = 5;
+            else if (shotPut >= 4.34) shotPutScore = 4;
+            else if (shotPut >= 4.17) shotPutScore = 3;
+            else if (shotPut >= 4.00) shotPutScore = 2;
+            else if (shotPut >= 3.83) shotPutScore = 1;
+            else shotPutScore = 0;
+
+            const totalScore = runScore + longJumpScore + shotPutScore;
+            document.getElementById('runResult').textContent = `800 Meter Run Score: ${runScore}`;
+            document.getElementById('longJumpResult').textContent = `Long Jump Score: ${longJumpScore}`;
+            document.getElementById('shotPutResult').textContent = `Shot Put Score: ${shotPutScore}`;
+            document.getElementById('result').textContent = `Total Score: ${totalScore}`;
+        }
+    </script>
+</body>
+</html>
