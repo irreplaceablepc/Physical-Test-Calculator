@@ -3,96 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physical Test Calculator</title>
+    <title>M.P. Police Physical Test Calculator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #e9ecef;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
+            background-color: #ffffff;
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
             margin: auto;
             box-sizing: border-box;
         }
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 20px;
+            color: #343a40;
+            margin-bottom: 25px;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
         }
         label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
         }
         input[type="number"] {
-            width: 100%;
-            padding: 8px;
+            width: calc(100% - 60px);
+            padding: 10px;
             box-sizing: border-box;
-            border: 1px solid #ddd;
+            border: 1px solid #ced4da;
             border-radius: 5px;
             font-size: 16px;
+            transition: border-color 0.3s ease;
+            margin-right: 10px;
+            flex-grow: 1;
+        }
+        input[type="number"]:focus {
+            border-color: #80bdff;
+            outline: none;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+        .result {
+            margin-left: 10px;
+            font-size: 16px;
+            color: #343a40;
+            font-weight: 600;
         }
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: #fff;
+            padding: 12px;
+            background-color: #007bff;
+            color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             transition: background-color 0.3s ease;
         }
         button:hover {
             background-color: #0056b3;
         }
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            text-align: center;
-            color: #333;
-            font-weight: bold;
+        .time-input {
+            width: 50px;
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Physical Test Calculator</h1>
-        <div class="form-group">
-            <label for="run">800 Meter Run Time (seconds):</label>
-            <input type="number" id="run" min="0" step="0.1" oninput="calculateScore()">
+        <h1><img src="logo.png" alt="Police Logo" style="width: 50px; vertical-align: middle;"> M.P. Police Marks Calculator</h1>
+        <div class="form-group" style="border: 1px solid #ced4da; padding: 10px; border-radius: 5px;">
+            <label for="writtenExam">Written Exam Mark:</label>
+            <div class="input-group">
+                <input type="number" id="writtenExam" min="0" max="100" step="1" oninput="validateWrittenExam()">
+                <div class="result" id="writtenExamResult"></div>
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="border: 1px solid #ced4da; padding: 10px; border-radius: 5px;">
+            <label for="runMinutes">800 Meter Run Time:</label>
+            <div class="input-group">
+                <input type="number" id="runMinutes" class="time-input" min="0" max="60" step="1" oninput="calculateScore()"> min
+                <input type="number" id="runSeconds" class="time-input" min="0" max="60" step="1" oninput="calculateScore()"> sec
+                <div class="result" id="runResult"></div>
+            </div>
+        </div>
+        <div class="form-group" style="border: 1px solid #ced4da; padding: 10px; border-radius: 5px;">
             <label for="longJump">Long Jump Distance (feet):</label>
-            <input type="number" id="longJump" min="0" step="0.01" oninput="calculateScore()">
+            <div class="input-group">
+                <input type="number" id="longJump" min="0" step="0.01" oninput="calculateScore()">
+                <div class="result" id="longJumpResult"></div>
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="border: 1px solid #ced4da; padding: 10px; border-radius: 5px;">
             <label for="shotPut">Shot Put Distance (feet):</label>
-            <input type="number" id="shotPut" min="0" step="0.01" oninput="calculateScore()">
+            <div class="input-group">
+                <input type="number" id="shotPut" min="0" step="0.01" oninput="calculateScore()">
+                <div class="result" id="shotPutResult"></div>
+            </div>
         </div>
-        <div class="result" id="runResult"></div>
-        <div class="result" id="longJumpResult"></div>
-        <div class="result" id="shotPutResult"></div>
         <div class="result" id="result"></div>
+        <div class="result" id="finalResult"></div>
     </div>
 
     <script>
+        function validateWrittenExam() {
+            const writtenExamInput = document.getElementById('writtenExam');
+            const writtenExamValue = parseFloat(writtenExamInput.value);
+            if (writtenExamValue < 0 || writtenExamValue > 100) {
+                writtenExamInput.value = '';
+                document.getElementById('writtenExamResult').textContent = 'Please enter a value between 0 and 100';
+            } else {
+                document.getElementById('writtenExamResult').textContent = '';
+                calculateScore();
+            }
+        }
+
         function calculateScore() {
-            const runTime = parseFloat(document.getElementById('run').value);
+            const writtenExam = parseFloat(document.getElementById('writtenExam').value) || 0;
+            const runMinutes = parseFloat(document.getElementById('runMinutes').value) || 0;
+            const runSeconds = parseFloat(document.getElementById('runSeconds').value) || 0;
+            const runTime = (runMinutes * 60) + runSeconds;
             const longJumpFeet = parseFloat(document.getElementById('longJump').value);
             const shotPutFeet = parseFloat(document.getElementById('shotPut').value);
 
@@ -105,7 +148,9 @@
             let shotPutScore = 0;
 
             // Scoring for 800 meter run (out of 40 points)
-            if (runTime > 198.3) runScore = 0;
+            if (runTime === 0) {
+                runScore = 0;
+            } else if (runTime > 198.3) runScore = 0;
             else if (runTime > 196.4) runScore = 1;
             else if (runTime > 194.5) runScore = 2;
             else if (runTime > 192.6) runScore = 3;
@@ -145,7 +190,8 @@
             else if (runTime > 128.0) runScore = 37;
             else if (runTime > 126.1) runScore = 38;
             else if (runTime > 124.2) runScore = 39;
-            else runScore = 40;
+            else if (runTime >= 0 || runTime <= 124.2) runScore = 40;
+            else runScore = 0;
 
             // Scoring for long jump (out of 30 points)
             if (longJump >= 5.57) longJumpScore = 30;
@@ -214,10 +260,12 @@
             else shotPutScore = 0;
 
             const totalScore = runScore + longJumpScore + shotPutScore;
-            document.getElementById('runResult').textContent = `800 Meter Run Score: ${runScore}`;
-            document.getElementById('longJumpResult').textContent = `Long Jump Score: ${longJumpScore}`;
-            document.getElementById('shotPutResult').textContent = `Shot Put Score: ${shotPutScore}`;
-            document.getElementById('result').textContent = `Total Score: ${totalScore}`;
+            const finalScore = totalScore + writtenExam;
+            document.getElementById('runResult').textContent = `Score: ${runScore}`;
+            document.getElementById('longJumpResult').textContent = `Score: ${longJumpScore}`;
+            document.getElementById('shotPutResult').textContent = `Score: ${shotPutScore}`;
+            document.getElementById('result').textContent = `Physical Mark: ${totalScore}`;
+            document.getElementById('finalResult').textContent = `Final Mark: ${finalScore}`;
         }
     </script>
 </body>
